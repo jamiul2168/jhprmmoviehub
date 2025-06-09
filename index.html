@@ -2,22 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JH PRM Movie Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Premium Movie Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #4361ee;
-            --primary-dark: #3a0ca3;
-            --primary-light: #f0f4ff;
-            --accent: #ff5f6d;
+            --primary-light: #e6ebff;
+            --secondary: #3f37c9;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --white: #ffffff;
+            --success: #4cc9f0;
+            --error: #f72585;
+            --warning: #f8961e;
             --text: #2b2d42;
             --text-light: #8d99ae;
-            --bg: #ffffff;
-            --card-bg: #ffffff;
-            --border: #edf2f4;
-            --shadow: 0 12px 32px rgba(0,0,0,0.08);
-            --radius: 16px;
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --border: #e9ecef;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
@@ -27,914 +35,1054 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg);
+            font-family: 'Inter', sans-serif;
             color: var(--text);
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
+            background-color: var(--dark);
+            overflow: hidden;
+            touch-action: manipulation;
         }
 
-        /* Premium Glassmorphism Header */
-        .app-header {
-            position: sticky;
+        /* Embedded Content */
+        #embedded-content {
+            position: fixed;
             top: 0;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.86);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-            padding: 18px 0;
-        }
-
-        .header-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .logo-text {
-            font-size: 22px;
-            font-weight: 700;
-            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Premium Search Bar */
-        .search-container {
-            position: relative;
-            width: 400px;
-            max-width: 100%;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 14px 24px;
-            padding-left: 52px;
-            border: none;
-            border-radius: 50px;
-            background: rgba(240, 244, 255, 0.6);
-            font-size: 15px;
-            color: var(--text);
-            transition: var(--transition);
-            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.08);
-        }
-
-        .search-input:focus {
-            outline: none;
-            background: rgba(240, 244, 255, 0.9);
-            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.12);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary);
-            opacity: 0.7;
-        }
-
-        /* Main Content */
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 30px;
-        }
-
-        /* Category Chips - Premium Style */
-        .category-filter {
-            display: flex;
-            gap: 10px;
-            padding: 20px 0;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .category-filter::-webkit-scrollbar {
-            display: none;
-        }
-
-        .category-btn {
-            padding: 10px 22px;
-            background: var(--primary-light);
-            border: none;
-            border-radius: 50px;
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: var(--transition);
-            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.08);
-        }
-
-        .category-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(67, 97, 238, 0.12);
-        }
-
-        .category-btn.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.2);
-        }
-
-        /* Movie Grid - Premium Card Design */
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .movie-card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .movie-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-        }
-
-        .movie-poster-container {
-            position: relative;
-            width: 100%;
-            height: 380px;
-            overflow: hidden;
-        }
-
-        .movie-poster {
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            border: none;
+            z-index: 1;
         }
 
-        .movie-card:hover .movie-poster {
-            transform: scale(1.05);
+        /* Auth Overlays */
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 1rem;
         }
 
-        .movie-badge {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 50px;
-            font-size: 12px;
+        .auth-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .auth-card {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 420px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px);
+            transition: var(--transition);
+            margin: 1rem 0 3rem;
+        }
+
+        .auth-overlay.active .auth-card {
+            transform: translateY(0);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-title {
+            font-size: 1.25rem;
             font-weight: 600;
-            backdrop-filter: blur(4px);
+            margin-bottom: 0.5rem;
         }
 
-        .movie-info {
-            padding: 22px;
+        .auth-subtitle {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 0.9375rem;
+            transition: var(--transition);
+            background-color: var(--white);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            width: 100%;
             position: relative;
         }
 
-        .movie-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
         }
 
-        .colored-text {
-            color: #ff5f6d;
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--secondary);
+            transform: translateY(-1px);
         }
 
-        .movie-category {
-            font-size: 13px;
+        .btn-secondary {
+            background-color: var(--white);
             color: var(--primary);
-            background: var(--primary-light);
-            padding: 4px 12px;
-            border-radius: 50px;
-            display: inline-block;
-            margin-bottom: 16px;
+            border: 1px solid var(--primary);
         }
 
-        .download-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition);
-            width: 100%;
-            justify-content: center;
+        .btn-secondary:hover:not(:disabled) {
+            background-color: var(--primary-light);
+        }
+
+        .btn-link {
+            background: none;
             border: none;
-            cursor: pointer;
-            font-size: 14px;
+            color: var(--primary);
+            text-decoration: underline;
+            padding: 0;
+            width: auto;
         }
 
-        .download-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+        .btn-link:hover {
+            color: var(--secondary);
         }
 
-        /* Premium Modal Design */
-        .modal-overlay {
-            position: fixed;
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-3 {
+            margin-top: 1rem;
+        }
+
+        /* Loading spinner */
+        .btn-loading .btn-text {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
-            display: none;
-            animation: fadeIn 0.4s;
+            margin: auto;
+            border: 3px solid transparent;
+            border-top-color: var(--white);
+            border-radius: 50%;
+            animation: button-loading-spinner 1s ease infinite;
         }
 
+        @keyframes button-loading-spinner {
+            from {
+                transform: rotate(0turn);
+            }
+            to {
+                transform: rotate(1turn);
+            }
+        }
+
+        /* Payment Steps */
+        .payment-step {
+            display: none;
+        }
+
+        .payment-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .payment-info {
+            background-color: var(--primary-light);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .payment-info-label {
+            color: var(--text-light);
+        }
+
+        .payment-info-value {
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        /* Copyable fields */
+        .copyable-field {
+            display: flex;
+            align-items: center;
+            background-color: var(--light);
+            border-radius: var(--radius-md);
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .copyable-field input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 0.875rem;
+            color: var(--text);
+        }
+
+        .copyable-field button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .copyable-field button:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* User Menu */
+        .user-menu-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+            border: none;
+            transition: var(--transition);
+        }
+
+        .user-menu-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .user-menu {
+            position: fixed;
+            top: 5rem;
+            right: 1rem;
+            background-color: var(--white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            width: 200px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+
+        .user-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .user-menu-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-menu-item:hover {
+            background-color: var(--light);
+        }
+
+        .user-menu-item svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .user-menu-divider {
+            height: 1px;
+            background-color: var(--border);
+            margin: 0.25rem 0;
+        }
+
+        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        .modal-container {
+        /* Alert Popup */
+        .alert-popup {
             position: fixed;
-            top: 50%;
+            top: 1rem;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 900px;
-            max-height: 90vh;
-            background: var(--bg);
-            border-radius: var(--radius);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            z-index: 1001;
-            display: none;
-            overflow: hidden;
-            animation: modalSlideIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-        }
-
-        @keyframes modalSlideIn {
-            from { opacity: 0; transform: translate(-50%, -60%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: rgba(240, 244, 255, 0.8);
-            border: none;
-            border-radius: 50%;
+            transform: translateX(-50%);
+            background-color: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: 1100;
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            transition: var(--transition);
-            backdrop-filter: blur(4px);
+            gap: 0.75rem;
+            max-width: 90%;
+            animation: slideIn 0.3s ease-out;
         }
 
-        .modal-close:hover {
-            background: var(--primary-light);
-            transform: rotate(90deg);
+        .alert-popup.error {
+            background-color: var(--error);
+            color: var(--white);
         }
 
-        .modal-content {
-            display: flex;
-            height: 100%;
+        .alert-popup.success {
+            background-color: var(--success);
+            color: var(--white);
         }
 
-        .modal-poster {
-            flex: 0 0 45%;
-            max-height: 80vh;
-            overflow: hidden;
-            position: relative;
+        .alert-popup.warning {
+            background-color: var(--warning);
+            color: var(--white);
         }
 
-        .modal-poster img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
         }
 
-        .modal-poster::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100px;
-            background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
-        }
-
-        .modal-details {
-            flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-        }
-
-        .modal-title {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            line-height: 1.3;
-        }
-
-        .meta-info {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
-            align-items: center;
-        }
-
-        .type-badge {
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .category-tag {
-            background: rgba(141, 153, 174, 0.1);
-            color: var(--text-light);
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 14px;
-        }
-
-        .download-section {
-            margin-top: 30px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text);
-        }
-
-        /* Premium Episode List */
-        .episode-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-
-        .episode-item {
-            padding: 16px;
-            background: var(--primary-light);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .episode-item:hover {
-            background: #e0e7ff;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(67, 97, 238, 0.1);
-        }
-
-        .episode-title {
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--primary);
-            font-size: 15px;
-        }
-
-        /* Premium Download Button with Countdown */
-        .download-container {
-            margin: 30px 0;
-            text-align: center;
-        }
-
-        .countdown {
-            color: var(--primary);
-            font-size: 16px;
-            font-weight: 600;
-            margin: 16px 0;
-            opacity: 0.9;
-        }
-
-        .download-button {
-            animation: pulse 1.5s ease infinite;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 50px;
-            color: white;
-            padding: 16px 40px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 8px 24px rgba(67, 97, 238, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .download-button::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                rgba(255,255,255,0.3),
-                rgba(255,255,255,0)
-            );
-            transform: rotate(30deg);
-            transition: var(--transition);
-        }
-
-        .download-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(67, 97, 238, 0.4);
-        }
-
-        .download-button:hover::after {
-            transform: translateX(100%) rotate(30deg);
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-            100% { transform: scale(1); }
-        }
-
-        .hidden-download {
-            display: none;
-            background: linear-gradient(135deg, #00b894, #00997b);
-            border-radius: 50px;
-            color: white;
-            padding: 16px 40px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition);
-            box-shadow: 0 8px 24px rgba(0, 184, 148, 0.3);
-            border: none;
-            cursor: pointer;
-        }
-
-        .hidden-download:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(0, 184, 148, 0.4);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .modal-content {
+        /* Responsive */
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 1.5rem;
+            }
+            
+            .auth-overlay {
+                padding: 0.5rem;
+            }
+            
+            .payment-info-item {
                 flex-direction: column;
+                gap: 0.25rem;
             }
-            
-            .modal-poster {
-                flex: 0 0 400px;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .movie-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            }
-            
-            .header-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .search-container {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 30px 20px;
-            }
-            
-            .modal-details {
-                padding: 30px;
-            }
-            
-            .modal-title {
-                font-size: 28px;
-            }
-            
-            .episode-list {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            }
-        }
-
-        @media (max-width: 576px) {
-            .movie-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-            
-            .modal-container {
-                width: 95%;
-                height: 90vh;
-            }
-            
-            .modal-poster {
-                flex: 0 0 300px;
-            }
-            
-            .modal-details {
-                padding: 20px;
-            }
-            
-            .download-button, .hidden-download {
-                padding: 14px 30px;
-                font-size: 15px;
-                width: 100%;
-            }
-
-            .movie-poster-container {
-                height: 250px;
-            }
-
-            .movie-title {
-                font-size: 16px;
-            }
-
-            .download-btn {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-        }
-
-        /* Loading Animation */
-        @keyframes shimmer {
-            0% { background-position: -468px 0 }
-            100% { background-position: 468px 0 }
-        }
-
-        .loading-card {
-            background: #f6f7f8;
-            background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
-            background-repeat: no-repeat;
-            background-size: 800px 104px;
-            display: inline-block;
-            position: relative;
-            animation-duration: 1s;
-            animation-fill-mode: forwards;
-            animation-iteration-count: infinite;
-            animation-name: shimmer;
-            animation-timing-function: linear;
-            border-radius: var(--radius);
-            height: 380px;
-        }
-
-        .loading-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Premium Glass Header -->
-    <header class="app-header">
-        <div class="header-container">
-            <a href="#" class="logo">
-<!--
-                <div class="logo-icon">JHRPMHUB</div>
--->
-                <div class="logo-text">JH PRM Movie Hub</div>
-            </a>
-            
-            <div class="search-container">
-                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2"/>
-                    <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                <input type="text" class="search-input" id="searchInput" placeholder="Search movies...">
-            </div>
-        </div>
-    </header>
+    <!-- Embedded Content -->
+    <iframe id="embedded-content" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
 
-    <main class="main-container">
-        <!-- Premium Category Chips -->
-        <div class="category-filter" id="categoryFilter">
-            <button class="category-btn active" data-category="all">All Content</button>
-            <!-- Categories will be loaded dynamically -->
-        </div>
-
-        <!-- Movie Grid with Loading Skeleton -->
-        <div id="movieGrid">
-            <div class="loading-grid">
-                <div class="loading-card"></div>
-                <div class="loading-card"></div>
-                <div class="loading-card"></div>
-                <div class="loading-card"></div>
+    <!-- Login Overlay -->
+    <div class="auth-overlay" id="login-overlay">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">PREMIUM HUB</div>
+                <h2 class="auth-title">Welcome Back</h2>
+                <p class="auth-subtitle">Login to access premium content</p>
             </div>
-        </div>
-    </main>
-
-    <!-- Premium Modal -->
-    <div class="modal-overlay" id="modalOverlay"></div>
-    <div class="modal-container" id="modalContainer">
-        <button class="modal-close" id="modalClose">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18" stroke="#4361ee" stroke-width="2" stroke-linecap="round"/>
-                <path d="M6 6L18 18" stroke="#4361ee" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-        </button>
-        
-        <div class="modal-content">
-            <div class="modal-poster">
-                <img id="modalPoster" src="" alt="Movie Poster">
-            </div>
-            
-            <div class="modal-details">
-                <h2 id="modalTitle"></h2>
-                <div class="meta-info">
-                    <span id="modalType" class="type-badge"></span>
-                    <span id="modalCategory" class="category-tag"></span>
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">User ID</label>
+                    <input type="text" id="login-userid" class="form-control" placeholder="Enter your user ID" required>
                 </div>
-                
-                <div class="download-section" id="downloadSection">
-                    <!-- Download content will be loaded here -->
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
                 </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="btn-text">Login</span>
+                </button>
+            </form>
+            <div class="text-center mt-3">
+                <p>Don't have an account? <button class="btn-link" id="show-register">Register</button></p>
             </div>
         </div>
     </div>
 
+    <!-- Registration Overlay -->
+    <div class="auth-overlay" id="register-overlay">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">PREMIUM HUB</div>
+                <h2 class="auth-title">Create Account</h2>
+                <p class="auth-subtitle">Join our premium community</p>
+            </div>
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label">User ID</label>
+                    <input type="text" id="reg-userid" class="form-control" placeholder="Choose a user ID" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="reg-fullname" class="form-control" placeholder="Your full name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mobile Number</label>
+                    <input type="text" id="reg-mobile" class="form-control" placeholder="01XXXXXXXXX" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="reg-password" class="form-control" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Plan Type</label>
+                    <select id="reg-plan" class="form-control" required>
+                        <option value="" disabled selected>Select your plan</option>
+                        <option value="Gold">Gold (100 BDT/month)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="btn-text">Continue to Payment</span>
+                </button>
+            </form>
+            <div class="text-center mt-3">
+                <p>Already have an account? <button class="btn-link" id="show-login">Login</button></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Overlay -->
+    <div class="auth-overlay" id="payment-overlay">
+        <div class="auth-card">
+            <div id="payment-step-1" class="payment-step active">
+                <div class="auth-header">
+                    <div class="auth-logo">PREMIUM HUB</div>
+                    <h2 class="auth-title">Complete Payment</h2>
+                    <p class="auth-subtitle">Follow the instructions below</p>
+                </div>
+                
+                <div class="payment-info">
+                    <div class="payment-info-item">
+                        <span class="payment-info-label">Send amount:</span>
+                        <span class="payment-info-value">100 BDT</span>
+                    </div>
+                    <div class="payment-info-item">
+                        <span class="payment-info-label">Payment method:</span>
+                        <span class="payment-info-value">Bkash/Rocket/Nagad</span>
+                    </div>
+                    <div class="payment-info-item">
+                        <span class="payment-info-label">Account number:</span>
+                        <span class="payment-info-value">01XXXXXXXXX</span>
+                    </div>
+                    <div class="copyable-field">
+                        <input type="text" id="payment-ref" value="GOLD-${Math.floor(1000 + Math.random() * 9000)}" readonly>
+                        <button onclick="copyToClipboard('payment-ref')">Copy</button>
+                    </div>
+                </div>
+                
+                <p style="margin-bottom: 1.5rem; color: var(--text-light); font-size: 0.875rem;">
+                    After completing the payment, click next to verify your transaction.
+                </p>
+                
+                <div style="display: flex; gap: 0.75rem;">
+                    <button class="btn btn-secondary" id="cancel-payment">
+                        <span class="btn-text">Cancel</span>
+                    </button>
+                    <button class="btn btn-primary" id="next-payment-step">
+                        <span class="btn-text">Next</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="payment-step-2" class="payment-step">
+                <div class="auth-header">
+                    <div class="auth-logo">PREMIUM HUB</div>
+                    <h2 class="auth-title">Verify Payment</h2>
+                    <p class="auth-subtitle">Enter your transaction details</p>
+                </div>
+                
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label class="form-label">Payment Method</label>
+                        <select id="payment-method" class="form-control" required>
+                            <option value="" disabled selected>Select method</option>
+                            <option value="Bkash">Bkash</option>
+                            <option value="Rocket">Rocket</option>
+                            <option value="Nagad">Nagad</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Transaction ID</label>
+                        <input type="text" id="transaction-id" class="form-control" placeholder="Enter transaction ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Your User ID</label>
+                        <input type="text" id="verify-userid" class="form-control" placeholder="Enter your user ID" required>
+                    </div>
+                    
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button type="button" class="btn btn-secondary" id="prev-payment-step">
+                            <span class="btn-text">Back</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="verify-payment">
+                            <span class="btn-text">Submit</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="payment-step-3" class="payment-step">
+                <div class="auth-header">
+                    <div class="auth-logo">PREMIUM HUB</div>
+                    <h2 class="auth-title" style="color: var(--success);">Verification Submitted</h2>
+                    <p class="auth-subtitle">Your account will be activated shortly</p>
+                </div>
+                
+                <div style="text-align: center; margin: 1.5rem 0;">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" fill="#4cc9f0"/>
+                    </svg>
+                </div>
+                
+                <p style="text-align: center; color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.875rem;">
+                    We'll notify you once your payment is verified. This usually takes less than 24 hours.
+                </p>
+                
+                <button class="btn btn-primary" id="close-payment">
+                    <span class="btn-text">Return to Login</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Overlay -->
+    <div class="auth-overlay" id="change-password-overlay">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">PREMIUM HUB</div>
+                <h2 class="auth-title">Change Password</h2>
+                <p class="auth-subtitle">Create a new secure password</p>
+            </div>
+            <form id="change-password-form">
+                <div class="form-group">
+                    <label class="form-label">Current Password</label>
+                    <input type="password" id="current-password" class="form-control" placeholder="Enter current password" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">New Password</label>
+                    <input type="password" id="new-password" class="form-control" placeholder="Enter new password" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" id="confirm-password" class="form-control" placeholder="Confirm new password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="btn-text">Update Password</span>
+                </button>
+                <button type="button" class="btn btn-secondary mt-3" id="cancel-password-change">
+                    <span class="btn-text">Cancel</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Menu Button -->
+    <button class="user-menu-btn" id="user-menu-btn" style="display: none;">U</button>
+    
+    <!-- User Menu Dropdown -->
+    <div class="user-menu" id="user-menu">
+        <div class="user-menu-item" id="change-password-btn">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" fill="#4361ee"/>
+                <path d="M17 7L18 7C19.1046 7 20 7.89543 20 9L20 19C20 20.1046 19.1046 21 18 21L6 21C4.89543 21 4 20.1046 4 19L4 9C4 7.89543 4.89543 7 6 7L7 7M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15ZM12 15L12 18M17 7L12 7M7 7L12 7" stroke="#4361ee" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Change Password
+        </div>
+        <div class="user-menu-divider"></div>
+        <div class="user-menu-item" id="logout-btn" style="color: var(--error);">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 17L21 12M21 12L16 7M21 12H9M9 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21H9" stroke="#f72585" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Logout
+        </div>
+    </div>
+
     <script>
-        // Configuration - Replace with your Apps Script URL
-        const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJ5Vwq0npjrqgdlBrmHtNQlQRJV6Kg_dqg9OaPHGOUQ9SvtSdeDzt5TAo1Y3C50tdt/exec';
+        // Configuration
+        const CONFIG = {
+            scriptUrl: 'https://script.google.com/macros/s/AKfycbwWUJm2BJtRcOK9QIU0pKZiaclHa7GPrOXnc6OwXezR7sWT0L8oQciYSJKayPkw8oybxA/exec',
+            embeddedUrl: 'https://jhprmmhub.blogspot.com/'
+        };
         
-        document.addEventListener('DOMContentLoaded', function() {
-            // DOM Elements
-            const movieGrid = document.getElementById('movieGrid');
-            const searchInput = document.getElementById('searchInput');
-            const categoryFilter = document.getElementById('categoryFilter');
-            const modalOverlay = document.getElementById('modalOverlay');
-            const modalContainer = document.getElementById('modalContainer');
-            const modalClose = document.getElementById('modalClose');
+        // State management
+        let currentUser = null;
+        
+        // Initialize the embedded content
+        document.getElementById('embedded-content').src = CONFIG.embeddedUrl;
+        
+        // DOM Elements
+        const elements = {
+            overlays: {
+                login: document.getElementById('login-overlay'),
+                register: document.getElementById('register-overlay'),
+                payment: document.getElementById('payment-overlay'),
+                changePassword: document.getElementById('change-password-overlay')
+            },
+            forms: {
+                login: document.getElementById('login-form'),
+                register: document.getElementById('register-form'),
+                payment: document.getElementById('payment-form'),
+                changePassword: document.getElementById('change-password-form')
+            },
+            buttons: {
+                showRegister: document.getElementById('show-register'),
+                showLogin: document.getElementById('show-login'),
+                nextPaymentStep: document.getElementById('next-payment-step'),
+                prevPaymentStep: document.getElementById('prev-payment-step'),
+                verifyPayment: document.getElementById('verify-payment'),
+                closePayment: document.getElementById('close-payment'),
+                cancelPayment: document.getElementById('cancel-payment'),
+                userMenuBtn: document.getElementById('user-menu-btn'),
+                userMenu: document.getElementById('user-menu'),
+                logoutBtn: document.getElementById('logout-btn'),
+                changePassBtn: document.getElementById('change-password-btn'),
+                cancelPassChange: document.getElementById('cancel-password-change')
+            }
+        };
+        
+        // Copy to clipboard function
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            element.select();
+            element.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand('copy');
             
-            // State
-            let allMovies = [];
-            let allCategories = [];
-            let currentCategory = 'all';
-            let currentSearch = '';
+            // Show feedback
+            const originalText = element.nextElementSibling.textContent;
+            element.nextElementSibling.textContent = 'Copied!';
+            setTimeout(() => {
+                element.nextElementSibling.textContent = originalText;
+            }, 2000);
+        }
+        
+        // Show alert popup
+        function showAlert(message, type = 'error') {
+            const alert = document.createElement('div');
+            alert.className = `alert-popup ${type}`;
+            alert.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    ${type === 'error' ? `
+                        <path d="M12 8V12M12 16H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    ` : type === 'success' ? `
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" fill="currentColor"/>
+                    ` : `
+                        <path d="M12 9V11M12 15H12.01M5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5C8.13401 5 5 8.13401 5 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    `}
+                </svg>
+                <span>${message}</span>
+            `;
             
-            // Initialize
-            loadMovies();
+            document.body.appendChild(alert);
             
-            // Event Listeners
-            searchInput.addEventListener('input', function() {
-                currentSearch = this.value.toLowerCase();
-                filterMovies();
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
+            }, 3000);
+        }
+        
+        // Set button loading state
+        function setButtonLoading(button, isLoading) {
+            if (isLoading) {
+                button.disabled = true;
+                button.classList.add('btn-loading');
+            } else {
+                button.disabled = false;
+                button.classList.remove('btn-loading');
+            }
+        }
+        
+        // Initialize the application
+        function init() {
+            setupEventListeners();
+            checkExistingSession();
+        }
+        
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Auth toggles
+            elements.buttons.showRegister.addEventListener('click', (e) => {
+                e.preventDefault();
+                showOverlay('register');
+                hideOverlay('login');
             });
             
-            modalClose.addEventListener('click', closeModal);
-            modalOverlay.addEventListener('click', closeModal);
+            elements.buttons.showLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                showOverlay('login');
+                hideOverlay('register');
+            });
             
-            // Functions
-            function loadMovies() {
-                fetch(APP_SCRIPT_URL)
-                    .then(response => response.json())
-                    .then(data => {
-                        allMovies = data.movies;
-                        allCategories = data.categories;
-                        renderCategories();
-                        renderMovies(allMovies);
-                    })
-                    .catch(error => {
-                        console.error('Error loading movies:', error);
-                        movieGrid.innerHTML = '<p class="error-message">Failed to load content. Please try again later.</p>';
-                    });
-            }
+            // Form submissions
+            elements.forms.login.addEventListener('submit', handleLogin);
+            elements.forms.register.addEventListener('submit', handleRegister);
+            elements.forms.payment.addEventListener('submit', verifyPayment);
+            elements.forms.changePassword.addEventListener('submit', handlePasswordChange);
             
-            function renderCategories() {
-                allCategories.forEach(category => {
-                    const btn = document.createElement('button');
-                    btn.className = 'category-btn';
-                    btn.textContent = category;
-                    btn.dataset.category = category.toLowerCase();
-                    btn.addEventListener('click', function() {
-                        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-                        this.classList.add('active');
-                        currentCategory = this.dataset.category;
-                        filterMovies();
-                    });
-                    categoryFilter.appendChild(btn);
-                });
-
-                // Add click handler for the "All" button
-                const allBtn = categoryFilter.querySelector('[data-category="all"]');
-                allBtn.addEventListener('click', function() {
-                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    currentCategory = 'all';
-                    filterMovies();
-                });
-            }
+            // Payment steps
+            elements.buttons.nextPaymentStep.addEventListener('click', () => showPaymentStep(2));
+            elements.buttons.prevPaymentStep.addEventListener('click', () => showPaymentStep(1));
+            elements.buttons.closePayment.addEventListener('click', () => {
+                hideOverlay('payment');
+                showOverlay('login');
+            });
+            elements.buttons.cancelPayment.addEventListener('click', () => {
+                hideOverlay('payment');
+                showOverlay('register');
+            });
             
-            function filterMovies() {
-                const filtered = allMovies.filter(movie => {
-                    const matchesSearch = movie.name.toLowerCase().includes(currentSearch);
-                    const matchesCategory = currentCategory === 'all' || 
-                                          movie.category.toLowerCase() === currentCategory;
-                    return matchesSearch && matchesCategory;
-                });
-                
-                renderMovies(filtered);
-            }
+            // User menu
+            elements.buttons.userMenuBtn.addEventListener('click', toggleUserMenu);
+            elements.buttons.logoutBtn.addEventListener('click', logoutUser);
+            elements.buttons.changePassBtn.addEventListener('click', () => {
+                showOverlay('changePassword');
+                hideUserMenu();
+            });
             
-            function renderMovies(movies) {
-                if (movies.length === 0) {
-                    movieGrid.innerHTML = '<p class="no-results">No content found. Try a different search.</p>';
-                    return;
+            elements.buttons.cancelPassChange.addEventListener('click', () => {
+                hideOverlay('changePassword');
+            });
+            
+            // Close menus when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.user-menu') && e.target !== elements.buttons.userMenuBtn) {
+                    hideUserMenu();
                 }
-                
-                movieGrid.innerHTML = '';
-                
-                const grid = document.createElement('div');
-                grid.className = 'movie-grid';
-                
-                movies.forEach(movie => {
-                    const movieCard = document.createElement('div');
-                    movieCard.className = 'movie-card';
-                    
-                    // Split title into parts if colored text exists
-                    let titleHTML = movie.name;
-                    if (movie.coloredText) {
-                        const coloredIndex = movie.name.indexOf(movie.coloredText);
-                        if (coloredIndex !== -1) {
-                            const beforeColored = movie.name.substring(0, coloredIndex);
-                            const afterColored = movie.name.substring(coloredIndex + movie.coloredText.length);
-                            titleHTML = `${beforeColored}<span class="colored-text">${movie.coloredText}</span>${afterColored}`;
-                        }
-                    }
-                    
-                    movieCard.innerHTML = `
-                        <div class="movie-poster-container">
-                            <img src="${movie.thumbnail}" alt="${movie.name}" class="movie-poster">
-                            <span class="movie-badge">${movie.type}</span>
-                        </div>
-                        <div class="movie-info">
-                            <h3 class="movie-title">${titleHTML}</h3>
-                            <span class="movie-category">${movie.category}</span>
-                            <button class="download-btn" data-movie='${JSON.stringify(movie)}'>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 15V3M12 15L8 11M12 15L16 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                    <path d="M20 21H4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                                Download
-                            </button>
-                        </div>
-                    `;
-                    
-                    movieCard.querySelector('.download-btn').addEventListener('click', function(e) {
-                        e.preventDefault();
-                        openMovieModal(movie);
-                    });
-                    
-                    grid.appendChild(movieCard);
+            });
+        }
+        
+        // Check for existing session
+        function checkExistingSession() {
+            const userData = localStorage.getItem('premiumUser');
+            if (userData) {
+                try {
+                    currentUser = JSON.parse(userData);
+                    showUserMenuButton();
+                    elements.buttons.userMenuBtn.textContent = currentUser.userid.substring(0, 1).toUpperCase();
+                } catch {
+                    localStorage.removeItem('premiumUser');
+                }
+            } else {
+                showOverlay('login');
+            }
+        }
+        
+        // Show overlay
+        function showOverlay(overlayName) {
+            elements.overlays[overlayName].classList.add('active');
+        }
+        
+        // Hide overlay
+        function hideOverlay(overlayName) {
+            elements.overlays[overlayName].classList.remove('active');
+        }
+        
+        // Show user menu button
+        function showUserMenuButton() {
+            elements.buttons.userMenuBtn.style.display = 'flex';
+        }
+        
+        // Hide user menu button
+        function hideUserMenuButton() {
+            elements.buttons.userMenuBtn.style.display = 'none';
+        }
+        
+        // Toggle user menu
+        function toggleUserMenu() {
+            elements.buttons.userMenu.classList.toggle('active');
+        }
+        
+        // Hide user menu
+        function hideUserMenu() {
+            elements.buttons.userMenu.classList.remove('active');
+        }
+        
+        // Show specific payment step
+        function showPaymentStep(stepNumber) {
+            document.querySelectorAll('.payment-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById(`payment-step-${stepNumber}`).classList.add('active');
+        }
+        
+        // Handle login
+        async function handleLogin(e) {
+            e.preventDefault();
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            const userid = document.getElementById('login-userid').value;
+            const password = document.getElementById('login-password').value;
+            
+            setButtonLoading(submitButton, true);
+            
+            try {
+                const response = await fetch(CONFIG.scriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=login&userid=${encodeURIComponent(userid)}&password=${encodeURIComponent(password)}`
                 });
                 
-                movieGrid.appendChild(grid);
-            }
-            
-            function openMovieModal(movie) {
-                // Set modal content
-                document.getElementById('modalTitle').textContent = movie.name;
-                document.getElementById('modalPoster').src = movie.thumbnail;
-                document.getElementById('modalType').textContent = movie.type;
-                document.getElementById('modalCategory').textContent = movie.category;
+                const result = await response.json();
                 
-                // Clear and rebuild download section
-                const downloadSection = document.getElementById('downloadSection');
-                downloadSection.innerHTML = '';
-                
-                if (movie.type === 'Series' && movie.episodes.length > 0) {
-                    // For series - show episode list
-                    const sectionTitle = document.createElement('h3');
-                    sectionTitle.className = 'section-title';
-                    sectionTitle.textContent = 'Select Episode:';
-                    downloadSection.appendChild(sectionTitle);
-                    
-                    const episodeList = document.createElement('div');
-                    episodeList.className = 'episode-list';
-                    
-                    movie.episodes.forEach(episode => {
-                        const episodeItem = document.createElement('div');
-                        episodeItem.className = 'episode-item';
-                        episodeItem.innerHTML = `
-                            <div class="episode-title">${episode.title}</div>
-                        `;
-                        episodeItem.addEventListener('click', () => {
-                            createDownloadButton(episode.link, `Download ${episode.title}`);
-                        });
-                        episodeList.appendChild(episodeItem);
-                    });
-                    
-                    downloadSection.appendChild(episodeList);
+                if (result.status === 'success') {
+                    currentUser = result.user;
+                    localStorage.setItem('premiumUser', JSON.stringify(currentUser));
+                    hideOverlay('login');
+                    showUserMenuButton();
+                    elements.buttons.userMenuBtn.textContent = userid.substring(0, 1).toUpperCase();
+                    showAlert('Login successful!', 'success');
+                } else if (result.status === 'inactive') {
+                    showAlert('Account pending activation. Complete payment verification.', 'warning');
+                    document.getElementById('verify-userid').value = userid;
+                    hideOverlay('login');
+                    showOverlay('payment');
                 } else {
-                    // For movies - direct download
-                    createDownloadButton(movie.download, 'Download HD 720p');
+                    showAlert(result.message || 'Login failed. Please check your credentials.');
                 }
-                
-                // Show modal
-                modalOverlay.style.display = 'block';
-                modalContainer.style.display = 'block';
-                document.body.style.overflow = 'hidden';
+            } catch (error) {
+                showAlert('Network error. Please try again.');
+                console.error('Login error:', error);
+            } finally {
+                setButtonLoading(submitButton, false);
             }
+        }
+        
+        // Handle registration
+        async function handleRegister(e) {
+            e.preventDefault();
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            const userData = {
+                userid: document.getElementById('reg-userid').value,
+                fullname: document.getElementById('reg-fullname').value,
+                mobile: document.getElementById('reg-mobile').value,
+                password: document.getElementById('reg-password').value,
+                plantype: document.getElementById('reg-plan').value
+            };
             
-            function createDownloadButton(url, title) {
-                // Clear existing content
-                const downloadSection = document.getElementById('downloadSection');
-                downloadSection.innerHTML = '';
-                
-                // Create container
-                const container = document.createElement('div');
-                container.className = 'download-container';
-                
-                container.innerHTML = `
-                    <button class="download-button" id="fakeDownload">${title}</button>
-                    <p class="countdown" id="countdownTimer"></p>
-                    <a href="${url}" class="hidden-download" id="realDownload" target="_blank">Start Download</a>
-                `;
-                
-                downloadSection.appendChild(container);
-                
-                // Timer functionality
-                const fakeBtn = document.getElementById('fakeDownload');
-                const countdown = document.getElementById('countdownTimer');
-                const realBtn = document.getElementById('realDownload');
-                
-                fakeBtn.addEventListener('click', function() {
-                    fakeBtn.style.display = 'none';
-                    
-                    let seconds = 5;
-                    countdown.textContent = `Download will start in ${seconds} seconds...`;
-                    
-                    const timer = setInterval(() => {
-                        seconds--;
-                        countdown.textContent = `Download will start in ${seconds} seconds...`;
-                        
-                        if (seconds <= 0) {
-                            clearInterval(timer);
-                            countdown.style.display = 'none';
-                            realBtn.style.display = 'inline-block';
-                        }
-                    }, 1000);
+            setButtonLoading(submitButton, true);
+            
+            try {
+                const response = await fetch(CONFIG.scriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=register&${Object.entries(userData)
+                        .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
+                        .join('&')}`
                 });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    showAlert('Registration successful! Please complete payment verification.', 'success');
+                    hideOverlay('register');
+                    showOverlay('payment');
+                    document.getElementById('verify-userid').value = userData.userid;
+                } else {
+                    showAlert(result.message || 'Registration failed. Please try again.');
+                }
+            } catch (error) {
+                showAlert('Network error. Please try again.');
+                console.error('Registration error:', error);
+            } finally {
+                setButtonLoading(submitButton, false);
+            }
+        }
+        
+        // Verify payment
+        async function verifyPayment(e) {
+            e.preventDefault();
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            const paymentData = {
+                userid: document.getElementById('verify-userid').value,
+                paymentMethod: document.getElementById('payment-method').value,
+                transactionId: document.getElementById('transaction-id').value,
+                amount: '100',
+                reference: document.getElementById('payment-ref').value
+            };
+            
+            setButtonLoading(submitButton, true);
+            
+            try {
+                const response = await fetch(CONFIG.scriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=verifyPayment&${Object.entries(paymentData)
+                        .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
+                        .join('&')}`
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    showAlert('Payment verification submitted successfully!', 'success');
+                    showPaymentStep(3);
+                } else {
+                    showAlert(result.message || 'Verification failed. Please check your details.');
+                }
+            } catch (error) {
+                showAlert('Network error. Please try again.');
+                console.error('Payment verification error:', error);
+            } finally {
+                setButtonLoading(submitButton, false);
+            }
+        }
+        
+        // Handle password change
+        async function handlePasswordChange(e) {
+            e.preventDefault();
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            const currentPass = document.getElementById('current-password').value;
+            const newPass = document.getElementById('new-password').value;
+            const confirmPass = document.getElementById('confirm-password').value;
+            
+            if (newPass !== confirmPass) {
+                showAlert('Passwords do not match!');
+                return;
             }
             
-            function closeModal() {
-                modalOverlay.style.display = 'none';
-                modalContainer.style.display = 'none';
-                document.body.style.overflow = 'auto';
+            setButtonLoading(submitButton, true);
+            
+            try {
+                const response = await fetch(CONFIG.scriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=changePassword&userid=${encodeURIComponent(currentUser.userid)}&oldPassword=${encodeURIComponent(currentPass)}&newPassword=${encodeURIComponent(newPass)}`
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    showAlert('Password changed successfully!', 'success');
+                    hideOverlay('changePassword');
+                    elements.forms.changePassword.reset();
+                } else {
+                    showAlert(result.message || 'Password change failed. Please try again.');
+                }
+            } catch (error) {
+                showAlert('Network error. Please try again.');
+                console.error('Password change error:', error);
+            } finally {
+                setButtonLoading(submitButton, false);
             }
-        });
+        }
+        
+        // Logout user
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('premiumUser');
+            hideUserMenuButton();
+            hideUserMenu();
+            showOverlay('login');
+            showAlert('Logged out successfully', 'success');
+        }
+        
+        // Initialize the app
+        init();
+
+        // ডিভ টুলস ও রাইট ক্লিক ব্লকার
+        (function() {
+            var _z = console;
+            Object.defineProperty(window, "console", {
+                get: function() {
+                    if (window.outerWidth - window.innerWidth > 100 || window.outerHeight - window.innerHeight > 100) {
+                        document.body.innerHTML = "ডিভ টুলস ডিটেক্ট করা হয়েছে!";
+                        window.close();
+                    }
+                    return _z;
+                },
+                set: function(val) {
+                    _z = val;
+                }
+            });
+            
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.onkeydown = function(e) {
+                if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) {
+                    e.preventDefault();
+                    alert('এই অপশনটি নিষ্ক্রিয় করা হয়েছে');
+                    return false;
+                }
+            };
+        })();
     </script>
 </body>
 </html>
