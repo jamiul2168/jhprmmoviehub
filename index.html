@@ -449,7 +449,7 @@
     <div class="auth-overlay" id="login-overlay">
         <div class="auth-card">
             <div class="auth-header">
-                <div class="auth-logo">PREMIUM HUB</div>
+                <div class="auth-logo">JH PRM Movie Hub</div>
                 <h2 class="auth-title">Welcome Back</h2>
                 <p class="auth-subtitle">Login to access premium content</p>
             </div>
@@ -501,7 +501,7 @@
                     <label class="form-label">Plan Type</label>
                     <select id="reg-plan" class="form-control" required>
                         <option value="" disabled selected>Select your plan</option>
-                        <option value="Gold">Gold (20 BDT/2 month)</option>
+                        <option value="Gold">Gold (100 BDT/month)</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">
@@ -527,26 +527,24 @@
                 <div class="payment-info">
                     <div class="payment-info-item">
                         <span class="payment-info-label">Send amount:</span>
-                        <span class="payment-info-value">20 BDT</span>
+                        <span class="payment-info-value">100 BDT</span>
                     </div>
                     <div class="payment-info-item">
                         <span class="payment-info-label">Payment method:</span>
-                        <span class="payment-info-value">Bkash/Rocket/Upay</span>
+                        <span class="payment-info-value">Bkash/Rocket/Uapy</span>
                     </div>
-                    <!-- Account Number Section -->
-<div class="payment-info-item">
-  <span class="payment-info-label">Account number:</span>
-  <span class="payment-info-value" id="account-number">01719563112</span>
-  <button onclick="copyToClipboard('account-number')">Copy</button>
-</div>
-
-<!-- Reference ID Section -->
-<div class="copyable-field" style="margin-top: 10px;">
-  <span class="payment-info-label">Reference ID:</span>
-  <input type="text" id="payment-ref" value="ref: JHPRMGLD20" readonly>
-  <button onclick="copyToClipboard('payment-ref')">Copy</button>
-</div>
-
+                    <div class="payment-info-item">
+                        <span class="payment-info-label">Account number:</span>
+                        <span class="payment-info-value">01719563112</span>
+                        <input type="text" id="payment-ref" value="01719563112" readonly>
+                        <button onclick="copyToClipboard('payment-ref')">Copy</button>
+                        
+                    </div>
+                    <div class="copyable-field">
+                        <input type="text" id="payment-ref" value="JHPRMHUBGOLD20" readonly>
+                        <button onclick="copyToClipboard('payment-ref')">Copy</button>
+                    </div>
+                </div>
                 
                 <p style="margin-bottom: 1.5rem; color: var(--text-light); font-size: 0.875rem;">
                     After completing the payment, click next to verify your transaction.
@@ -564,7 +562,7 @@
             
             <div id="payment-step-2" class="payment-step">
                 <div class="auth-header">
-                    <div class="auth-logo">PREMIUM HUB</div>
+                    <div class="auth-logo">JH PRM Movie Hub</div>
                     <h2 class="auth-title">Verify Payment</h2>
                     <p class="auth-subtitle">Enter your transaction details</p>
                 </div>
@@ -601,7 +599,7 @@
             
             <div id="payment-step-3" class="payment-step">
                 <div class="auth-header">
-                    <div class="auth-logo">PREMIUM HUB</div>
+                    <div class="auth-logo">JH PRM Movie Hub</div>
                     <h2 class="auth-title" style="color: var(--success);">Verification Submitted</h2>
                     <p class="auth-subtitle">Your account will be activated shortly</p>
                 </div>
