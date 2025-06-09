@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JH PRM Movie Hub</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --primary-light: #f0f4ff;
+            --accent: #ff5f6d;
+            --text: #2b2d42;
+            --text-light: #8d99ae;
+            --bg: #ffffff;
+            --card-bg: #ffffff;
+            --border: #edf2f4;
+            --shadow: 0 12px 32px rgba(0,0,0,0.08);
+            --radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Premium Glassmorphism Header */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.86);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            padding: 18px 0;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Premium Search Bar */
+        .search-container {
+            position: relative;
+            width: 400px;
+            max-width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 24px;
+            padding-left: 52px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(240, 244, 255, 0.6);
+            font-size: 15px;
+            color: var(--text);
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.08);
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: rgba(240, 244, 255, 0.9);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.12);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            opacity: 0.7;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+
+        /* Category Chips - Premium Style */
+        .category-filter {
+            display: flex;
+            gap: 10px;
+            padding: 20px 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .category-filter::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            padding: 10px 22px;
+            background: var(--primary-light);
+            border: none;
+            border-radius: 50px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.08);
+        }
+
+        .category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(67, 97, 238, 0.12);
+        }
+
+        .category-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.2);
+        }
+
+        /* Movie Grid - Premium Card Design */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .movie-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .movie-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        .movie-poster-container {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            overflow: hidden;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        .movie-card:hover .movie-poster {
+            transform: scale(1.05);
+        }
+
+        .movie-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+        }
+
+        .movie-info {
+            padding: 22px;
+            position: relative;
+        }
+
+        .movie-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .colored-text {
+            color: #ff5f6d;
+        }
+
+        .movie-category {
+            font-size: 13px;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            width: 100%;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .download-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Premium Modal Design */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: none;
+            animation: fadeIn 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            background: var(--bg);
+            border-radius: var(--radius);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            z-index: 1001;
+            display: none;
+            overflow: hidden;
+            animation: modalSlideIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(240, 244, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: var(--transition);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-close:hover {
+            background: var(--primary-light);
+            transform: rotate(90deg);
+        }
+
+        .modal-content {
+            display: flex;
+            height: 100%;
+        }
+
+        .modal-poster {
+            flex: 0 0 45%;
+            max-height: 80vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .modal-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-poster::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
+        }
+
+        .modal-details {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            align-items: center;
+        }
+
+        .type-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .category-tag {
+            background: rgba(141, 153, 174, 0.1);
+            color: var(--text-light);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+        }
+
+        .download-section {
+            margin-top: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        /* Premium Episode List */
+        .episode-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .episode-item {
+            padding: 16px;
+            background: var(--primary-light);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .episode-item:hover {
+            background: #e0e7ff;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(67, 97, 238, 0.1);
+        }
+
+        .episode-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--primary);
+            font-size: 15px;
+        }
+
+        /* Premium Download Button with Countdown */
+        .download-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .countdown {
+            color: var(--primary);
+            font-size: 16px;
+            font-weight: 600;
+            margin: 16px 0;
+            opacity: 0.9;
+        }
+
+        .download-button {
+            animation: pulse 1.5s ease infinite;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50px;
+            color: white;
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255,255,255,0.3),
+                rgba(255,255,255,0)
+            );
+            transform: rotate(30deg);
+            transition: var(--transition);
+        }
+
+        .download-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(67, 97, 238, 0.4);
+        }
+
+        .download-button:hover::after {
+            transform: translateX(100%) rotate(30deg);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        .hidden-download {
+            display: none;
+            background: linear-gradient(135deg, #00b894, #00997b);
+            border-radius: 50px;
+            color: white;
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 8px 24px rgba(0, 184, 148, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .hidden-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 184, 148, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .modal-content {
+                flex-direction: column;
+            }
+            
+            .modal-poster {
+                flex: 0 0 400px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .search-container {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 30px 20px;
+            }
+            
+            .modal-details {
+                padding: 30px;
+            }
+            
+            .modal-title {
+                font-size: 28px;
+            }
+            
+            .episode-list {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .movie-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .modal-container {
+                width: 95%;
+                height: 90vh;
+            }
+            
+            .modal-poster {
+                flex: 0 0 300px;
+            }
+            
+            .modal-details {
+                padding: 20px;
+            }
+            
+            .download-button, .hidden-download {
+                padding: 14px 30px;
+                font-size: 15px;
+                width: 100%;
+            }
+
+            .movie-poster-container {
+                height: 250px;
+            }
+
+            .movie-title {
+                font-size: 16px;
+            }
+
+            .download-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes shimmer {
+            0% { background-position: -468px 0 }
+            100% { background-position: 468px 0 }
+        }
+
+        .loading-card {
+            background: #f6f7f8;
+            background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+            background-repeat: no-repeat;
+            background-size: 800px 104px;
+            display: inline-block;
+            position: relative;
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
+            animation-iteration-count: infinite;
+            animation-name: shimmer;
+            animation-timing-function: linear;
+            border-radius: var(--radius);
+            height: 380px;
+        }
+
+        .loading-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Premium Glass Header -->
+    <header class="app-header">
+        <div class="header-container">
+            <a href="#" class="logo">
+<!--
+                <div class="logo-icon">JHRPMHUB</div>
+-->
+                <div class="logo-text">JH PRM Movie Hub</div>
+            </a>
+            
+            <div class="search-container">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search movies...">
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Premium Category Chips -->
+        <div class="category-filter" id="categoryFilter">
+            <button class="category-btn active" data-category="all">All Content</button>
+            <!-- Categories will be loaded dynamically -->
+        </div>
+
+        <!-- Movie Grid with Loading Skeleton -->
+        <div id="movieGrid">
+            <div class="loading-grid">
+                <div class="loading-card"></div>
+                <div class="loading-card"></div>
+                <div class="loading-card"></div>
+                <div class="loading-card"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Premium Modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-container" id="modalContainer">
+        <button class="modal-close" id="modalClose">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18" stroke="#4361ee" stroke-width="2" stroke-linecap="round"/>
+                <path d="M6 6L18 18" stroke="#4361ee" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+        
+        <div class="modal-content">
+            <div class="modal-poster">
+                <img id="modalPoster" src="" alt="Movie Poster">
+            </div>
+            
+            <div class="modal-details">
+                <h2 id="modalTitle"></h2>
+                <div class="meta-info">
+                    <span id="modalType" class="type-badge"></span>
+                    <span id="modalCategory" class="category-tag"></span>
+                </div>
+                
+                <div class="download-section" id="downloadSection">
+                    <!-- Download content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - Replace with your Apps Script URL
+        const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJ5Vwq0npjrqgdlBrmHtNQlQRJV6Kg_dqg9OaPHGOUQ9SvtSdeDzt5TAo1Y3C50tdt/exec';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const movieGrid = document.getElementById('movieGrid');
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalContainer = document.getElementById('modalContainer');
+            const modalClose = document.getElementById('modalClose');
+            
+            // State
+            let allMovies = [];
+            let allCategories = [];
+            let currentCategory = 'all';
+            let currentSearch = '';
+            
+            // Initialize
+            loadMovies();
+            
+            // Event Listeners
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value.toLowerCase();
+                filterMovies();
+            });
+            
+            modalClose.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', closeModal);
+            
+            // Functions
+            function loadMovies() {
+                fetch(APP_SCRIPT_URL)
+                    .then(response => response.json())
+                    .then(data => {
+                        allMovies = data.movies;
+                        allCategories = data.categories;
+                        renderCategories();
+                        renderMovies(allMovies);
+                    })
+                    .catch(error => {
+                        console.error('Error loading movies:', error);
+                        movieGrid.innerHTML = '<p class="error-message">Failed to load content. Please try again later.</p>';
+                    });
+            }
+            
+            function renderCategories() {
+                allCategories.forEach(category => {
+                    const btn = document.createElement('button');
+                    btn.className = 'category-btn';
+                    btn.textContent = category;
+                    btn.dataset.category = category.toLowerCase();
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        currentCategory = this.dataset.category;
+                        filterMovies();
+                    });
+                    categoryFilter.appendChild(btn);
+                });
+
+                // Add click handler for the "All" button
+                const allBtn = categoryFilter.querySelector('[data-category="all"]');
+                allBtn.addEventListener('click', function() {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = 'all';
+                    filterMovies();
+                });
+            }
+            
+            function filterMovies() {
+                const filtered = allMovies.filter(movie => {
+                    const matchesSearch = movie.name.toLowerCase().includes(currentSearch);
+                    const matchesCategory = currentCategory === 'all' || 
+                                          movie.category.toLowerCase() === currentCategory;
+                    return matchesSearch && matchesCategory;
+                });
+                
+                renderMovies(filtered);
+            }
+            
+            function renderMovies(movies) {
+                if (movies.length === 0) {
+                    movieGrid.innerHTML = '<p class="no-results">No content found. Try a different search.</p>';
+                    return;
+                }
+                
+                movieGrid.innerHTML = '';
+                
+                const grid = document.createElement('div');
+                grid.className = 'movie-grid';
+                
+                movies.forEach(movie => {
+                    const movieCard = document.createElement('div');
+                    movieCard.className = 'movie-card';
+                    
+                    // Split title into parts if colored text exists
+                    let titleHTML = movie.name;
+                    if (movie.coloredText) {
+                        const coloredIndex = movie.name.indexOf(movie.coloredText);
+                        if (coloredIndex !== -1) {
+                            const beforeColored = movie.name.substring(0, coloredIndex);
+                            const afterColored = movie.name.substring(coloredIndex + movie.coloredText.length);
+                            titleHTML = `${beforeColored}<span class="colored-text">${movie.coloredText}</span>${afterColored}`;
+                        }
+                    }
+                    
+                    movieCard.innerHTML = `
+                        <div class="movie-poster-container">
+                            <img src="${movie.thumbnail}" alt="${movie.name}" class="movie-poster">
+                            <span class="movie-badge">${movie.type}</span>
+                        </div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">${titleHTML}</h3>
+                            <span class="movie-category">${movie.category}</span>
+                            <button class="download-btn" data-movie='${JSON.stringify(movie)}'>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 15V3M12 15L8 11M12 15L16 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M20 21H4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Download
+                            </button>
+                        </div>
+                    `;
+                    
+                    movieCard.querySelector('.download-btn').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        openMovieModal(movie);
+                    });
+                    
+                    grid.appendChild(movieCard);
+                });
+                
+                movieGrid.appendChild(grid);
+            }
+            
+            function openMovieModal(movie) {
+                // Set modal content
+                document.getElementById('modalTitle').textContent = movie.name;
+                document.getElementById('modalPoster').src = movie.thumbnail;
+                document.getElementById('modalType').textContent = movie.type;
+                document.getElementById('modalCategory').textContent = movie.category;
+                
+                // Clear and rebuild download section
+                const downloadSection = document.getElementById('downloadSection');
+                downloadSection.innerHTML = '';
+                
+                if (movie.type === 'Series' && movie.episodes.length > 0) {
+                    // For series - show episode list
+                    const sectionTitle = document.createElement('h3');
+                    sectionTitle.className = 'section-title';
+                    sectionTitle.textContent = 'Select Episode:';
+                    downloadSection.appendChild(sectionTitle);
+                    
+                    const episodeList = document.createElement('div');
+                    episodeList.className = 'episode-list';
+                    
+                    movie.episodes.forEach(episode => {
+                        const episodeItem = document.createElement('div');
+                        episodeItem.className = 'episode-item';
+                        episodeItem.innerHTML = `
+                            <div class="episode-title">${episode.title}</div>
+                        `;
+                        episodeItem.addEventListener('click', () => {
+                            createDownloadButton(episode.link, `Download ${episode.title}`);
+                        });
+                        episodeList.appendChild(episodeItem);
+                    });
+                    
+                    downloadSection.appendChild(episodeList);
+                } else {
+                    // For movies - direct download
+                    createDownloadButton(movie.download, 'Download HD 720p');
+                }
+                
+                // Show modal
+                modalOverlay.style.display = 'block';
+                modalContainer.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function createDownloadButton(url, title) {
+                // Clear existing content
+                const downloadSection = document.getElementById('downloadSection');
+                downloadSection.innerHTML = '';
+                
+                // Create container
+                const container = document.createElement('div');
+                container.className = 'download-container';
+                
+                container.innerHTML = `
+                    <button class="download-button" id="fakeDownload">${title}</button>
+                    <p class="countdown" id="countdownTimer"></p>
+                    <a href="${url}" class="hidden-download" id="realDownload" target="_blank">Start Download</a>
+                `;
+                
+                downloadSection.appendChild(container);
+                
+                // Timer functionality
+                const fakeBtn = document.getElementById('fakeDownload');
+                const countdown = document.getElementById('countdownTimer');
+                const realBtn = document.getElementById('realDownload');
+                
+                fakeBtn.addEventListener('click', function() {
+                    fakeBtn.style.display = 'none';
+                    
+                    let seconds = 5;
+                    countdown.textContent = `Download will start in ${seconds} seconds...`;
+                    
+                    const timer = setInterval(() => {
+                        seconds--;
+                        countdown.textContent = `Download will start in ${seconds} seconds...`;
+                        
+                        if (seconds <= 0) {
+                            clearInterval(timer);
+                            countdown.style.display = 'none';
+                            realBtn.style.display = 'inline-block';
+                        }
+                    }, 1000);
+                });
+            }
+            
+            function closeModal() {
+                modalOverlay.style.display = 'none';
+                modalContainer.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>
